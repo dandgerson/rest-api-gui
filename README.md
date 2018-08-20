@@ -1,8 +1,10 @@
 # REST API GUI
 
+>This app allows to interact with the test-api service using the simple graphical user interface. It has the ability to perform basic requests to the server by simply clicking on the buttons. The query result is dynamically displayed in the application's output pane.
+
 ## Install
 
-To run this project you should have the same **_workflow_** *(look bellow in About section)*, also installed **Node.js**
+To run this project you should have the same **_workflow_** *(look bellow in **About** section)*, also you need installed **Node.js**
 
 1. clone this project into workspace
 2. in the project root, type with the command line interface:
@@ -12,7 +14,7 @@ To run this project you should have the same **_workflow_** *(look bellow in Abo
 
 ## About
 
-This small education project aims to show practical base usage:
+This small education project aims to show practical basic usage:
 
 * javascript web programming
 * AJAX
