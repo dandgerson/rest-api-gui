@@ -2,7 +2,7 @@
 
 ## Install
 
-To run this project you should have the same **_workflow_** *(look bellow in About section)* and preinstalled **Node.js**
+To run this project you should have the same **_workflow_** *(look bellow in About section)*, also installed **Node.js**
 
 1. clone this project into your workspace
 2. in project's root type with your command line interface:
