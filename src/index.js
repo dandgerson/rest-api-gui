@@ -1,5 +1,7 @@
 'use stict';
 
+import './main.scss';
+
 import _ from 'lodash';
 import ApiGui from './api-gui';
 
