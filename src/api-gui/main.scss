@@ -1,0 +1,90 @@
+@import './validation/main';
+body {
+  background-color: gray;
+  box-sizing: border-box;
+  padding: 0;
+  color: #222222;
+}
+
+.container {
+  width: 510px;
+  height: 660px;
+  background: lightgreen;
+  outline: 3px solid #222222;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.container h2 {
+  text-align: center;
+  margin: 10px auto 0;
+}
+
+.container .interface {
+  text-align: center;
+  padding: 10px 0;
+}
+
+.container .interface input[type="button"] {
+  transition: all .1s;
+}
+
+.container .interface input[type="button"]:hover {
+  box-shadow: 1px 1px 1px 0px #222222;
+  transition: all .2s;
+}
+
+.container .output-pane {
+  outline: 1px solid #222222;
+  border: 0;
+  height: 565px;
+  width: 480px;
+  background: #222222;
+  color: #00BE00;
+  margin: 0px auto;
+  font-size: 0.75rem;
+  font-family: "Fira Code";
+  font-weight: lighter;
+  padding: 3px;
+  box-shadow: 3px 2px 7px 2px #222222;
+  overflow: auto;
+}
+
+.container .output-pane table {
+  margin: 0 auto;
+  width: 100%;
+  border-collapse: collapse;
+  vertical-align: center;
+  text-align: left;
+}
+
+.container .output-pane table, .container .output-pane th, .container .output-pane td {
+  border: 1px solid black;
+  padding: 5px;
+}
+
+.container .output-pane table {
+  border: 2px solid black;
+}
+
+.container .output-pane th {
+  height: 20px;
+  border: 1px solid black;
+}
+
+.container .output-pane th:first-child, .container .output-pane td:first-child {
+  text-align: right;
+}
+
+.container .output-pane table tbody tr:not(:first-child):hover {
+  background-color: #292929;
+}
+
+.container .output-pane table tbody tr:first-child td {
+  font-weight: 400;
+  text-align: left;
+}
+
+.container .output-pane table .error {
+  color: red;
+}
