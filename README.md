@@ -5,11 +5,10 @@
 To run this project you should have the same **_workflow_** *(look bellow in About section)* and preinstalled **Node.js**
 
 1. clone this project into your workspace
-2. in project's root with command line type:
-   1. `npm i` - install all project dependensies
-   2. `npm start` - build bundle in development mode
+2. in project's root type with your command line interface:
+   1. `npm i` - install project dependencies
+   2. `npm start` - build the bundle
 3. in browser open *<http://localhost:8080/>*
-
 
 ## About
 
