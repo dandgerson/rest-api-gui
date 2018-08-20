@@ -2,7 +2,7 @@
 
 ## Install
 
-To run this project you should have the same **_workflow_** *(look bellow in About section)* and preinstall **nodeJS**
+To run this project you should have the same **_workflow_** *(look bellow in About section)* and preinstalled **Node.js**
 
 1. clone this project into your workspace
 2. in project's root with command line type:
@@ -55,4 +55,4 @@ This project based on tutorials and API service by Ilya Kantor:
 * ES6
 * AJAX
 * Lodash
-* Dinamic HTML generation with semantic templates
+* Dynamic HTML generation with semantic templates
