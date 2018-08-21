@@ -41,12 +41,10 @@
     border-radius: 3px;
   }
 }
-.container .pane table .error {
-  color: red;
-}
-
 
 @import './components/pane/main';
 @import './components/loader/main';
 @import './components/user-list/main';
 @import './components/validation/main';
+@import './components/user/main';
+@import './components/error/main';

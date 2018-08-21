@@ -1,9 +1,9 @@
 'use strict';
 import Loader from '../loader';
 import UserList from '../user-list';
+import Form from '../form';
 import User from '../user';
 import Error from '../error';
-import Form from '../form';
 
 export default class Pane {
   getElem() {
@@ -21,25 +21,25 @@ export default class Pane {
   }
   renderLoader() {
     this._loader = new Loader();
-    this.clear();
     this._elem.append(this._loader.getElem());
   }
   clear() {
     this._elem.innerHTML = '';
   }
   renderUserList(users) {
-    this.userList = new UserList(users);
-    this._elem.append(this.userList.getElem());
+    this._userList = new UserList(users);
+    this._elem.append(this._userList.getElem());
   }
   renderForm() {
-    this.clear();
     this._form = new Form();
     this._elem.append(this._form.getElem());
   }
   renderUser(userData) {
-    this.user = new User(userData);
+    this._user = new User(userData);
+    this._elem.append(this._user.getElem());
   }
   renderError(errorData) {
-    this.error = new Error(errorData);
+    this._error = new Error(errorData);
+    this._elem.append(this._error.getElem());
   }
 }

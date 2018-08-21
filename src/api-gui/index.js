@@ -104,9 +104,9 @@ export default class ApiGui {
   }
 
   showUserList() {
-    this._pane.renderLoader();
     this._getUsers();
-
+    this._pane.clear();
+    this._pane.renderLoader();
     const interval = 2000;
     const intervalId = setInterval(() => {
       if (this._loadEnd) {
@@ -119,71 +119,19 @@ export default class ApiGui {
   }
 
   createUser() {
+    this._pane.clear();
     this._pane.renderForm();
     this._elem.addEventListener('submit', this);
-
   }
 
   showUser() {
     this._sendUserData();
     this._pane.renderLoader();
-    this.userData ? this._pane.renderUser(this.userData) : this._pane.renderError(this.errorData);
-  }
-
-  _renderError() {
     const interval = 2000;
     const intervalId = setInterval(() => {
       if (this._loadEnd) {
-        let _template = `
-            <table >
-              <caption>User creation was corrupted by Error:</caption>
-              <thead>
-                <tr>
-                  <th>Property</th><th>Value</th>
-                </tr>
-              </thead>
-                <tbody>
-                  <tr><td colspan="2">errors:</td></tr>
-                <% for (let error in errors) { %>
-                  <% for (let prop in errors[error]) { %>
-                    <tr class="error">
-                      <td><%=prop %>:</td><td><%=errors[error][prop] %></td>
-                    </tr>
-                  <% } %>
-                <% } %>
-                </tbody>
-            </table>`;
-        this.clearPane();
-        this._pane.insertAdjacentHTML('beforeEnd', _.template(_template)({ errors: this.error }));
-        this._loadEnd = null;
-        clearInterval(intervalId);
-      }
-    }, interval);
-  }
-
-  _renderUser() {
-    const interval = 2000;
-    const intervalId = setInterval(() => {
-      if (this._loadEnd) {
-        let _template = `
-            <table>
-              <caption>User was successfully created:</caption>
-              <thead>
-                <tr>
-                  <th>Property</th><th>Value</th>
-                </tr>
-              </thead>
-                <tbody>
-                  <tr><td colspan="2">user:</td></tr>
-                <% for (let prop in user) { %>
-                  <tr>
-                      <td><%=prop %>:</td><td><%=user[prop] %></td>
-                  </tr>
-                <% } %>
-                </tbody>
-            </table>`;
-        this.clearPane();
-        this._pane.insertAdjacentHTML('beforeEnd', _.template(_template)({ user: this.user }));
+        this._pane.clear();
+        this.userData ? this._pane.renderUser(this.userData) : this._pane.renderError(this.errorData);
         this._loadEnd = null;
         clearInterval(intervalId);
       }
