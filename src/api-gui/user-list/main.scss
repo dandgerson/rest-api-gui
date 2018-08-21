@@ -1,0 +1,23 @@
+.user-list {
+  width: 100%;
+  border-collapse: collapse;
+  vertical-align: center;
+  text-align: left;
+  th {
+    height: 20px;
+  }
+  th:first-child,
+  td:first-child {
+    text-align: right;
+  }
+  tbody tr:first-child td {
+    font-weight: 400;
+    text-align: left;
+  }
+}
+
+.user-list,
+.user-list th,
+.user-list td {
+  padding: 5px;
+}

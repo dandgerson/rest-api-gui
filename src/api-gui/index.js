@@ -1,50 +1,51 @@
 'use strict';
 
 import Validate from './validation';
+import UserList from './user-list';
 /*
-        * + TODO: 1. outputPane:
-        * + сделать отдельный рендер outputPane
-        * + сделать его нередактируемым
-        * ***********************************
-        * + TODO: 2. вывод данных:
-        * + сделать вывод дынных списком (таблицей)
-        * (deprecated) сделать единый метод method showData(){}; для отображения любых данных.
-        * ***********************************
-        * TODO: 3. контекстное меню:
-        * на таблице, выводящей пользователей, после выполнения showUsers(); при наведении на первую
-        * строку tbody, отведённого под отдельного user'а ,изменить курсор извещая пользователя, 
-        * или вывести tooltip, если курсор остановится или замедлится над элементом, что у него 
-        * есть возможность, нажав правую кнопку мыши на этой строке вызывать контекстное меню со списком
-        * операций с user'ом.
-        * TODO: 3.1 сделать метод, отрисовывающий контекстное меню _renderMenu();
-        * меню должно содержать в себе список операций с пользователем:
-        * изменить пользователя patchUser();
-        * удалить пользователя deleteUser();
-        * ***********************************
-        * + TODO: 4. создать пользователя
-        * разработать функционал создания пользователя
-        * при клике на кнопку Create user в this._pane появляется форма с полями для заполнения
-        * у формы есть валидация и кнопка submit.
-        * при прохождении волидации форма отправляется на сервер и this._pane выводит, что пользователь с такими
-        * параметрами успешно создан, показывая его в таблице.
-        * ***********************************
-        * + TODO: 5. сделать кастомный скролбар
-        * ***********************************
-        * TODO: 6. сделать универсальный _XHR метод для запросов к серверу.
-        * он должен уметь отправлять:
-        * + POST запросы
-        * + GET запросы
-        * PATCH запросы
-        * DELETE запросы
-        * ***********************************
-        * TODO: 7. сделать отображение полосы загрузки
-        * ***********************************
-        * TODO: 8. выделить сущность юзера в отдельный класс и интегрировать его в приложение
-        * получить юзера
-        * удалить юзера
-        * пропатчить юзера
-        * ***********************************
-        */
+* + TODO: 1. outputPane:
+* + сделать отдельный рендер outputPane
+* + сделать его нередактируемым
+* ***********************************
+* + TODO: 2. вывод данных:
+* + сделать вывод дынных списком (таблицей)
+* (deprecated) сделать единый метод method showData(){}; для отображения любых данных.
+* ***********************************
+* TODO: 3. контекстное меню:
+* на таблице, выводящей пользователей, после выполнения showUsers(); при наведении на первую
+* строку tbody, отведённого под отдельного user'а ,изменить курсор извещая пользователя, 
+* или вывести tooltip, если курсор остановится или замедлится над элементом, что у него 
+* есть возможность, нажав правую кнопку мыши на этой строке вызывать контекстное меню со списком
+* операций с user'ом.
+* TODO: 3.1 сделать метод, отрисовывающий контекстное меню _renderMenu();
+* меню должно содержать в себе список операций с пользователем:
+* изменить пользователя patchUser();
+* удалить пользователя deleteUser();
+* ***********************************
+* + TODO: 4. создать пользователя
+* разработать функционал создания пользователя
+* при клике на кнопку Create user в this._pane появляется форма с полями для заполнения
+* у формы есть валидация и кнопка submit.
+* при прохождении волидации форма отправляется на сервер и this._pane выводит, что пользователь с такими
+* параметрами успешно создан, показывая его в таблице.
+* ***********************************
+* + TODO: 5. сделать кастомный скролбар
+* ***********************************
+* TODO: 6. сделать универсальный _XHR метод для запросов к серверу.
+* он должен уметь отправлять:
+* + POST запросы
+* + GET запросы
+* PATCH запросы
+* DELETE запросы
+* ***********************************
+* TODO: 7. сделать отображение полосы загрузки
+* ***********************************
+* TODO: 8. выделить сущность юзера в отдельный класс и интегрировать его в приложение
+* получить юзера
+* удалить юзера
+* пропатчить юзера
+* ***********************************
+*/
 export default class ApiGui {
   constructor({ url, account, }) {
     this.url = url;
@@ -102,14 +103,14 @@ export default class ApiGui {
     if (event.target.hasAttribute('data-button')) {
       const trigger = event.target.dataset.button;
       trigger === 'clear' && this.clearPane();
-      trigger === 'showUsers' && this.showUsers();
+      trigger === 'showUsers' && this.showUserList();
       trigger === 'createUser' && this.createUser();
 
     }
   }
   onSubmit() {
     event.preventDefault();
-    if (!this._validateForm()){
+    if (!this._validateForm()) {
       return;
     }
     /*
@@ -122,38 +123,19 @@ export default class ApiGui {
     this._pane.innerHTML = '';
   }
 
-  showUsers() {
+  showUserList() {
     this._renderLoader();
     this._getUsers();
-    this._renderUsers();
+    this._renderUserList();
   }
 
-  _renderUsers() {
+  _renderUserList() {
     const interval = 2000;
     const intervalId = setInterval(() => {
       if (this._loadEnd) {
-        let _template = `
-          <% let i = 0; %>
-            <table>
-              <caption>Users</caption>
-              <thead>
-                <tr>
-                  <th>Property</th><th>Value</th>
-                </tr>
-              </thead>
-              <% for (let user of users) { %>
-                <tbody>
-                  <tr><td colspan="2">user: <%-++i %></td></tr>
-                <% for (let prop in user) { %>
-                  <tr>
-                      <td><%=prop %>:</td><td><%=user[prop] %></td>
-                  </tr>
-                <% } %>
-                </tbody>
-              <% } %>
-            </table>`;
+        this.userList = new UserList(this.users);
         this.clearPane();
-        this._pane.insertAdjacentHTML('beforeEnd', _.template(_template)({ users: this.users }));
+        this._pane.append(this.userList.getElem());
         this._loadEnd = null;
         clearInterval(intervalId);
       }
@@ -218,7 +200,7 @@ export default class ApiGui {
         form.email.value,
         form.avatarUrl.value || true,
         form.birthdate.value || true,
-        form.gender.value 
+        form.gender.value
         && (form.gender.value === 'M' || form.gender.value === 'F') || true,
         form.address.value || true,
       ],
@@ -249,7 +231,7 @@ export default class ApiGui {
     const data = {};
     for (let element of elements) {
       element.name && element.value &&
-      (data[element.name] = element.value);
+        (data[element.name] = element.value);
     }
     return data;
   }
@@ -329,7 +311,7 @@ export default class ApiGui {
     }, interval);
   }
 
-  _XHR({ method, url, callbackSuccess = xhr => {}, callbackError = xhr => {}, data }){
+  _XHR({ method, url, callbackSuccess = xhr => { }, callbackError = xhr => { }, data }) {
     const xhr = new XMLHttpRequest();
     xhr.open(method, url);
     xhr.onload = () => {
@@ -345,7 +327,7 @@ export default class ApiGui {
     xhr.onloadend = () => this._loadEnd = true;
     xhr.onerror = () => console.log('Sorry error! Try again later');
 
-    method === 'GET' && xhr.send(); 
+    method === 'GET' && xhr.send();
     if (method === 'POST') {
       xhr.setRequestHeader('Content-type', 'application/json');
       xhr.send(JSON.stringify(data));
