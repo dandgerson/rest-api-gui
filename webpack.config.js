@@ -1,7 +1,15 @@
 const merge = require('webpack-merge');
+
+const path = require('path');
+const glob = require('glob');
+
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const parts = require('./webpack.parts');
+
+const PATHS = {
+  app: path.join(__dirname, 'src'),
+};
 
 const commonConfig = merge([
   {
@@ -15,7 +23,16 @@ const commonConfig = merge([
 
 const productionConfig = merge([
   parts.extractCSS({
-    use: ['css-loader', 'sass-loader',],
+    use: ['css-loader', parts.autoprefix(), 'sass-loader',],
+  }),
+  parts.purifyCSS({
+    paths: glob.sync(`${PATHS.app}/**/*.js`, { nodir: true }),
+  }),
+  parts.loadImages({
+    options: {
+      limit: 15000,
+      name: '[name].[ext]',
+    },
   }),
 ]);
 
@@ -25,6 +42,7 @@ const developmentConfig = merge([
     port: process.env.PORT,
   }),
   parts.loadCSS(),
+  parts.loadImages(),
 ]);
 
 module.exports = mode => {

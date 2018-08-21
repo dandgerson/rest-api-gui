@@ -4,7 +4,7 @@
 
 ## Install
 
-To run this project you should have the same **_workflow_** *(look bellow in **About** section)*, also you need installed **Node.js**
+To run this project you should have the same **_workflow_** *(look bellow in **About** section)*, also **Node.js** have to be installed.
 
 1. clone this project into workspace
 2. in the project root, type with the command line interface:
@@ -49,6 +49,7 @@ This project based on tutorials and API service by Ilya Kantor:
 * Webpack
 * webpack-dev-server
 * Sass
+* PurifyCSS
 * AutoPrefixer
 * NPM Script
 * HTML5
