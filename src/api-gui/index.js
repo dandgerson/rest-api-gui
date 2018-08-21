@@ -41,7 +41,7 @@ import Pane from './components/pane';
 * ***********************************
 * TODO: 7. сделать отображение полосы загрузки
 * ***********************************
-* TODO: 8. выделить сущность юзера в отдельный класс и интегрировать его в приложение
+* + TODO: 8. выделить сущность юзера в отдельный класс и интегрировать его в приложение
 * получить юзера
 * удалить юзера
 * пропатчить юзера
@@ -51,11 +51,14 @@ export default class ApiGui {
   constructor({ url, account, }) {
     this.url = url;
     this.account = account;
-    this._getUserUrl();
+    this._generateMainUrl();
   }
-  _getUserUrl() {
-    this.url[this.url.length - 1] === '/' && (this.userUrl = this.url) || (this.userUrl = this.url + '/');
-    this.account[this.account.length - 1] === '/' && (this.userUrl += this.account) || (this.userUrl += this.account + '/');
+  handleEvent(event) {
+    this[`on${event.type[0].toUpperCase() + event.type.slice(1)}`]();
+  }
+  _generateMainUrl() {
+    this.url[this.url.length - 1] === '/' && (this.mainUrl = this.url) || (this.mainUrl = this.url + '/');
+    this.account[this.account.length - 1] === '/' && (this.mainUrl += this.account) || (this.mainUrl += this.account + '/');
   }
   getElem() {
     this._elem || (this._elem = document.createElement('div'));
@@ -82,9 +85,6 @@ export default class ApiGui {
     this._pane = new Pane();
     this._elem.append(this._pane.getElem());
   }
-  handleEvent(event) {
-    this[`on${event.type[0].toUpperCase() + event.type.slice(1)}`]();
-  }
   onClick() {
     if (event.target.hasAttribute('data-button')) {
       const trigger = event.target.dataset.button;
@@ -97,9 +97,6 @@ export default class ApiGui {
   onSubmit() {
     event.preventDefault();
     if (!this._pane._form.validate()) return;
-    /*
-    * тут обработать форму и послать на сервер this._XHR();
-    */
     this.showUser();
   }
 
@@ -126,6 +123,7 @@ export default class ApiGui {
 
   showUser() {
     this._sendUserData();
+    this._pane.clear();
     this._pane.renderLoader();
     const interval = 2000;
     const intervalId = setInterval(() => {
@@ -141,7 +139,7 @@ export default class ApiGui {
   _getUsers() {
     this._XHR({
       method: 'GET',
-      url: this.userUrl + 'users',
+      url: this.mainUrl + 'users',
       callbackSuccess: xhr => {
         this.users = JSON.parse(xhr.responseText);
       },
@@ -152,7 +150,7 @@ export default class ApiGui {
     this.userData = this.errorData = null;
     this._XHR({
       method: 'POST',
-      url: this.userUrl + 'users',
+      url: this.mainUrl + 'users',
       callbackSuccess: xhr => {
         this.userData = JSON.parse(xhr.responseText);
       },
