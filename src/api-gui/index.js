@@ -1,8 +1,7 @@
 'use strict';
 
-import Validate from './validation';
-
-import Pane from './pane';
+import Validate from './components/validation';
+import Pane from './components/pane';
 
 /*
 * + TODO: 1. outputPane:
@@ -72,7 +71,6 @@ export default class ApiGui {
           <input type='button' value='Show users' data-button='showUsers'>
           <input type='button' value='Create user' data-button='createUser'>
         </div>
-
       </div>`;
     this._elem.insertAdjacentHTML('afterBegin', _.template(_template)());
     this._elem = this._elem.firstElementChild;
@@ -98,9 +96,7 @@ export default class ApiGui {
   }
   onSubmit() {
     event.preventDefault();
-    if (!this._validateForm()) {
-      return;
-    }
+    if (!this._pane._form.validate()) return;
     /*
     * тут обработать форму и послать на сервер this._XHR();
     */
@@ -122,115 +118,16 @@ export default class ApiGui {
     }, interval);
   }
 
+  createUser() {
+    this._pane.renderForm();
+    this._elem.addEventListener('submit', this);
 
-
-  _getUsers() {
-    this._XHR({
-      method: 'GET',
-      url: this.userUrl + 'users',
-      callbackSuccess: xhr => {
-        this.users = JSON.parse(xhr.responseText);
-      },
-    });
   }
 
   showUser() {
     this._sendUserData();
     this._pane.renderLoader();
-    this.user ? this._renderUser() : this._renderError();
-  }
-
-  createUser() {
-    this._renderForm();
-
-  }
-
-  _renderForm() {
-    const _template = `
-      <form>
-        <fieldset>
-          <legend>Personal user data:</legend>
-          fullName: <input type="text" name="fullName" placeholder="Dmitry G. Anderson I" ><br>
-          email: <input type="email" name="email" placeholder="dandgerson@gmail.com" ><br>
-          avatarUrl: <input type="text" name="avatarUrl" placeholder="https://s.gravatar.com/avatar/48993353f0c5319f31e8250f3f4adab7?s=80"><br>
-          birthdate: <input type="text" name="birthdate" placeholder="1988-01-22"><br>
-          gender: <input type="text" name="gender" placeholder="'M' or 'F'"><br>
-          address: <input type="text" name="address" placeholder="ул.Волжская набережная, Россия, 152903"><br>
-          <input type="submit" value="Submit">
-        </fieldset>
-      </form>`;
-    this._pane.clear();
-    this._pane.insertAdjacentHTML('beforeEnd', _.template(_template)());
-    this._pane.addEventListener('submit', this);
-
-  }
-
-  _validateForm() {
-    const form = this._pane.querySelector('form');
-    const validate = new Validate({
-      form: form,
-      fields: [
-        form.fullName, // первое проверяемое поле
-        form.email,
-        form.avatarUrl,
-        form.birthdate,
-        form.gender,
-        form.address,
-      ],
-      conditions: [
-        form.fullName.value, // условие для проверки первого поля
-        form.email.value,
-        form.avatarUrl.value || true,
-        form.birthdate.value || true,
-        form.gender.value
-        && (form.gender.value === 'M' || form.gender.value === 'F') || true,
-        form.address.value || true,
-      ],
-      errorTexts: [
-        ' fullName is required', // текст ошибки для первого поля
-        ' email is required',
-        ' (optional)',
-        ' (optional)',
-        ' (optional)',
-        ' (optional)',
-      ],
-      successTexts: [
-        ' fullName is ok', // текст успешной проверки для первого поля
-        ' email is ok',
-        ' (optional)',
-        ' (optional)',
-        ' (optional)',
-        ' (optional)',
-      ],
-    });
-    return validate.result;
-
-  }
-
-  _processForm() {
-    const form = this._pane.querySelector('form');
-    const elements = form.elements;
-    const data = {};
-    for (let element of elements) {
-      element.name && element.value &&
-        (data[element.name] = element.value);
-    }
-    return data;
-  }
-
-  _sendUserData() {
-    this.user = this.error = null;
-    this._XHR({
-      method: 'POST',
-      url: this.userUrl + 'users',
-      callbackSuccess: xhr => {
-        this.user = JSON.parse(xhr.responseText);
-      },
-      callbackError: xhr => {
-        this.error = JSON.parse(xhr.responseText);
-      },
-      data: this._processForm(),
-    });
+    this.userData ? this._pane.renderUser(this.userData) : this._pane.renderError(this.errorData);
   }
 
   _renderError() {
@@ -291,6 +188,31 @@ export default class ApiGui {
         clearInterval(intervalId);
       }
     }, interval);
+  }
+
+  _getUsers() {
+    this._XHR({
+      method: 'GET',
+      url: this.userUrl + 'users',
+      callbackSuccess: xhr => {
+        this.users = JSON.parse(xhr.responseText);
+      },
+    });
+  }
+
+  _sendUserData() {
+    this.userData = this.errorData = null;
+    this._XHR({
+      method: 'POST',
+      url: this.userUrl + 'users',
+      callbackSuccess: xhr => {
+        this.userData = JSON.parse(xhr.responseText);
+      },
+      callbackError: xhr => {
+        this.errorData = JSON.parse(xhr.responseText);
+      },
+      data: this._pane._form.process(),
+    });
   }
 
   _XHR({ method, url, callbackSuccess = xhr => { }, callbackError = xhr => { }, data }) {

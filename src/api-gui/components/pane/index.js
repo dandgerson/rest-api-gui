@@ -1,6 +1,9 @@
 'use strict';
 import Loader from '../loader';
 import UserList from '../user-list';
+import User from '../user';
+import Error from '../error';
+import Form from '../form';
 
 export default class Pane {
   getElem() {
@@ -17,9 +20,9 @@ export default class Pane {
     this._elem = this._elem.firstElementChild;
   }
   renderLoader() {
-    const loader = new Loader();
+    this._loader = new Loader();
     this.clear();
-    this._elem.append(loader.getElem());
+    this._elem.append(this._loader.getElem());
   }
   clear() {
     this._elem.innerHTML = '';
@@ -27,5 +30,16 @@ export default class Pane {
   renderUserList(users) {
     this.userList = new UserList(users);
     this._elem.append(this.userList.getElem());
+  }
+  renderForm() {
+    this.clear();
+    this._form = new Form();
+    this._elem.append(this._form.getElem());
+  }
+  renderUser(userData) {
+    this.user = new User(userData);
+  }
+  renderError(errorData) {
+    this.error = new Error(errorData);
   }
 }
