@@ -1,7 +1,9 @@
 'use strict';
 
 import Validate from './validation';
-import UserList from './user-list';
+
+import Pane from './pane';
+
 /*
 * + TODO: 1. outputPane:
 * + сделать отдельный рендер outputPane
@@ -79,22 +81,8 @@ export default class ApiGui {
     this._elem.addEventListener('click', this);
   }
   _renderPane() {
-    const _template = `
-      <div class="output-pane">
-        <span>Output Pane...</span>
-      </div>`;
-    this._pane = document.createElement('div');
-    this._pane.insertAdjacentHTML('afterBegin', _.template(_template)());
-    this._pane = this._pane.firstElementChild;
-
-    this._elem.append(this._pane);
-  }
-  _renderLoader() {
-    this._loader = document.createElement('span');
-    this._loader.classList.add('loader');
-    this._loader.innerHTML = 'loading...';
-    this._pane.innerHTML = '';
-    this._pane.append(this._loader);
+    this._pane = new Pane();
+    this._elem.append(this._pane.getElem());
   }
   handleEvent(event) {
     this[`on${event.type[0].toUpperCase() + event.type.slice(1)}`]();
@@ -102,7 +90,7 @@ export default class ApiGui {
   onClick() {
     if (event.target.hasAttribute('data-button')) {
       const trigger = event.target.dataset.button;
-      trigger === 'clear' && this.clearPane();
+      trigger === 'clear' && this._pane.clear();
       trigger === 'showUsers' && this.showUserList();
       trigger === 'createUser' && this.createUser();
 
@@ -119,28 +107,22 @@ export default class ApiGui {
     this.showUser();
   }
 
-  clearPane() {
-    this._pane.innerHTML = '';
-  }
-
   showUserList() {
-    this._renderLoader();
+    this._pane.renderLoader();
     this._getUsers();
-    this._renderUserList();
-  }
 
-  _renderUserList() {
     const interval = 2000;
     const intervalId = setInterval(() => {
       if (this._loadEnd) {
-        this.userList = new UserList(this.users);
-        this.clearPane();
-        this._pane.append(this.userList.getElem());
+        this._pane.clear();
+        this._pane.renderUserList(this.users);
         this._loadEnd = null;
         clearInterval(intervalId);
       }
     }, interval);
   }
+
+
 
   _getUsers() {
     this._XHR({
@@ -154,7 +136,7 @@ export default class ApiGui {
 
   showUser() {
     this._sendUserData();
-    this._renderLoader();
+    this._pane.renderLoader();
     this.user ? this._renderUser() : this._renderError();
   }
 
@@ -177,7 +159,7 @@ export default class ApiGui {
           <input type="submit" value="Submit">
         </fieldset>
       </form>`;
-    this.clearPane();
+    this._pane.clear();
     this._pane.insertAdjacentHTML('beforeEnd', _.template(_template)());
     this._pane.addEventListener('submit', this);
 

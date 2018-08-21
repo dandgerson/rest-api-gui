@@ -1,0 +1,27 @@
+.pane {
+  border: 1px solid #222222;
+    border-radius: 3px;
+    height: 565px;
+    width: 480px;
+    background: #222222;
+    color: #00BE00;
+    margin: 0px auto;
+    font-size: 0.75rem;
+    font-family: "Fira Code";
+    font-weight: lighter;
+    padding: 3px;
+    box-shadow: 3px 2px 7px 2px #222222;
+    overflow: auto;
+  table,
+  th,
+  td {
+    border: 1px solid black; // padding: 5px;
+  }
+  table {
+    margin: 0 auto;
+    border: 2px solid black;
+  }
+  tbody tr:not(:first-child):hover {
+    background-color: #292929;
+  }
+}
