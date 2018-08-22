@@ -1,6 +1,7 @@
 'use strict';
+import './main.scss';
 
-import Validate from '../validation';
+import Validate from '../validate';
 
 export default class Form {
   getElem() {
@@ -8,18 +9,64 @@ export default class Form {
     this._render();
     return this._elem;
   }
-  _render() {
+  _render() { 
     const _template = `
-      <form>
+      <form class="form">
         <fieldset>
           <legend>Personal user data:</legend>
-          fullName: <input type="text" name="fullName" placeholder="Dmitry G. Anderson I" ><br>
-          email: <input type="email" name="email" placeholder="dandgerson@gmail.com" ><br>
-          avatarUrl: <input type="text" name="avatarUrl" placeholder="https://s.gravatar.com/avatar/48993353f0c5319f31e8250f3f4adab7?s=80"><br>
-          birthdate: <input type="text" name="birthdate" placeholder="1988-01-22"><br>
-          gender: <input type="text" name="gender" placeholder="'M' or 'F'"><br>
-          address: <input type="text" name="address" placeholder="ул.Волжская набережная, Россия, 152903"><br>
-          <input type="submit" value="Submit">
+          <div class="row">
+            <div class="col-2 ">
+              <label class="m-0" for="fullName">fullName:</label>
+            </div>
+            <div class="col-10 ">
+              <input class="m-0" type="text" name="fullName" id="fullName" placeholder="full name">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2 ">
+              <label for="email">email:</label>
+            </div>
+            <div class="col-10 ">
+              <input type="email" name="email" id="email" placeholder="email">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2 ">
+              <label for="avatarUrl">avatarUrl:</label>
+            </div>
+            <div class="col-10 ">
+              <input type="text" name="avatarUrl" id="avatarUrl" placeholder="avatar URL">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2 ">
+              <label for="birthdate">birthdate:</label>
+            </div>
+            <div class="col-10 ">
+              <input type="text" name="birthdate" id="birthdate" placeholder="birthdate">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2 ">
+              <label for="gender">gender:</label>
+            </div>
+            <div class="col-10 ">
+              <input type="text" name="gender" id="gender" placeholder="M or F">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2 ">
+              <label for="address">address:</label>
+            </div>
+            <div class="col-10 ">
+              <input type="text" name="address" id="address" placeholder="address">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col ">
+              <input type="submit" value="Submit">
+            </div>
+          </div>
         </fieldset>
       </form>`;
     this._elem.insertAdjacentHTML('afterBegin', _.template(_template)());

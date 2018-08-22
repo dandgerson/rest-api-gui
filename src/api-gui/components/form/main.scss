@@ -1,0 +1,11 @@
+.form .row:not(:first-of-type) {
+  margin-top: 10px;
+}
+
+.form .col, .form .col-2, .form .col-10 {
+  align-items: center;
+}
+
+.form input {
+  margin-right: 10px;
+}

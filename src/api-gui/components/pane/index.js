@@ -1,4 +1,6 @@
 'use strict';
+import './main.scss';
+
 import Loader from '../loader';
 import UserList from '../user-list';
 import Form from '../form';

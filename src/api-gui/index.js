@@ -1,5 +1,7 @@
 'use strict';
 
+import './main.scss';
+
 import Pane from './components/pane';
 
 /*

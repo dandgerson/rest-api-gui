@@ -1,5 +1,7 @@
 'use strict';
 
+import './main.scss';
+
 export default class UserList {
   constructor(users) {
     this.users = users;

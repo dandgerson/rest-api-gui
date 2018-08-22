@@ -1,5 +1,7 @@
 'use strict';
 
+import './main.scss';
+
 export default class Error {
   constructor(data) {
     this.data = data;

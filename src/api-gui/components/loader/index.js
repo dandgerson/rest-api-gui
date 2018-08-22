@@ -1,4 +1,6 @@
 'use strict';
+import './main.scss';
+
 
 export default class Loader {
   getElem() {

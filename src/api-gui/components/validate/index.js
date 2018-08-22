@@ -1,5 +1,7 @@
 'use strict';
 
+import './main.scss';
+
 export default class Validate {
   constructor({ form, fields, conditions, errorTexts, successTexts }) {
     this.form = form;
