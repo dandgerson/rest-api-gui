@@ -12,6 +12,7 @@ const PATHS = {
 };
 
 const commonConfig = merge([
+  parts.loadFonts(),
   {
     plugins: [
       new HtmlWebpackPlugin({

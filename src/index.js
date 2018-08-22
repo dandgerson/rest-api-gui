@@ -1,5 +1,5 @@
 'use stict';
-
+import './fonts/fira_code.css';
 import './main.scss';
 
 import _ from 'lodash';

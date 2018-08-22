@@ -1,6 +1,5 @@
 'use strict';
 
-import Validate from './components/validation';
 import Pane from './components/pane';
 
 /*
@@ -53,18 +52,22 @@ export default class ApiGui {
     this.account = account;
     this._generateMainUrl();
   }
+
   handleEvent(event) {
     this[`on${event.type[0].toUpperCase() + event.type.slice(1)}`]();
   }
+
   _generateMainUrl() {
     this.url[this.url.length - 1] === '/' && (this.mainUrl = this.url) || (this.mainUrl = this.url + '/');
     this.account[this.account.length - 1] === '/' && (this.mainUrl += this.account) || (this.mainUrl += this.account + '/');
   }
+
   getElem() {
     this._elem || (this._elem = document.createElement('div'));
     this._render();
     return this._elem;
   }
+
   _render() {
     const _template = `
       <div class="container">
@@ -81,19 +84,21 @@ export default class ApiGui {
 
     this._elem.addEventListener('click', this);
   }
+
   _renderPane() {
     this._pane = new Pane();
     this._elem.append(this._pane.getElem());
   }
+
   onClick() {
     if (event.target.hasAttribute('data-button')) {
       const trigger = event.target.dataset.button;
       trigger === 'clear' && this._pane.clear();
       trigger === 'showUsers' && this.showUserList();
       trigger === 'createUser' && this.createUser();
-
     }
   }
+
   onSubmit() {
     event.preventDefault();
     if (!this._pane._form.validate()) return;
