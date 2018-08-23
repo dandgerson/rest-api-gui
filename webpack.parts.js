@@ -20,7 +20,6 @@ exports.loadCSS = ({ include, exclude } = {}) => ({
         test: /\.(sc|sa|c)ss$/,
         include,
         exclude,
-
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
     ],
@@ -39,7 +38,6 @@ exports.extractCSS = ({ include, exclude, use = [] }) => {
           test: /\.(sc|sa|c)ss$/,
           include,
           exclude,
-
           use: [
             MiniCssExtractPlugin.loader,
           ].concat(use),
@@ -91,4 +89,8 @@ exports.loadFonts = () => ({
       },
     ],
   },
+});
+
+exports.generateSourceMaps = ({ type }) => ({
+  devtool: type,
 });

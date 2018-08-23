@@ -35,6 +35,7 @@ const productionConfig = merge([
       name: '[name].[ext]',
     },
   }),
+  parts.generateSourceMaps({ type: 'source-map' }),
 ]);
 
 const developmentConfig = merge([
