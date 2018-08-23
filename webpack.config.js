@@ -26,7 +26,7 @@ const commonConfig = merge([
 const productionConfig = merge([
   parts.clean(PATHS.build),
   parts.extractCSS({
-    use: ['css-loader', parts.autoprefix(), 'sass-loader',],
+    use: ['css-loader', parts.autoprefix(), 'sass-loader'],
   }),
   parts.purifyCSS({
     paths: glob.sync(`${PATHS.app}/**/*.js`, { nodir: true }),
@@ -41,11 +41,20 @@ const productionConfig = merge([
   {
     optimization: {
       splitChunks: {
-        chunks: 'initial',
+        chunks: 'initial', 
       },
     },
   },
   parts.attachRevision(),
+  parts.minifyJavaScript(),
+  parts.minifyCSS({
+    option: {
+      discardComments: {
+        removeAll: true,
+      },
+      parser: require('postcss-safe-parser'),
+    },
+  }),
 ]);
 
 const developmentConfig = merge([

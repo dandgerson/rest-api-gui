@@ -5,6 +5,9 @@ const GitRevisionPlugin = require('git-revision-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const PurifyCSSPlugin = require('purifycss-webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const UglifyWebpackPlugin = require('uglifyjs-webpack-plugin');
+const OprimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const cssnano = require('cssnano');
 
 
 exports.devServer = ({ host, port } = {}) => ({
@@ -23,7 +26,7 @@ exports.loadCSS = ({ include, exclude } = {}) => ({
         test: /\.(sc|sa|c)ss$/,
         include,
         exclude,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: ['style-loader', 'css-loader', 'sass-loader',],
       },
     ],
   },
@@ -66,7 +69,7 @@ exports.loadImages = ({ include, exclude, options } = {}) => ({
   module: {
     rules: [
       {
-        test: /\.(png|jpg)$/,
+        test: /\.(png|svg|jpg|gif)$/,
         include,
         exclude,
         use: {
@@ -82,7 +85,7 @@ exports.loadFonts = () => ({
   module: {
     rules: [
       {
-        test: /\.(ttf|eot|woff|woff2)$/,
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
         use: {
           loader: 'file-loader',
           options: {
@@ -109,3 +112,28 @@ exports.attachRevision = () => ({
     }),
   ],
 });
+
+exports.minifyJavaScript = () => ({
+  optimization: {
+    minimizer: [new UglifyWebpackPlugin({ sourceMap: true })],
+  }
+});
+
+exports.minifyCSS = ({ options }) => ({
+  plugins: [
+    new OprimizeCSSAssetsPlugin({
+      cssProcessor: cssnano,
+      cssProcessorOptions: options,
+      canPrint: false,
+    }),
+  ],
+});
+
+exports.setFreeVariable = (key, value) => {
+  const env = {};
+  env[key] = JSON.stringify(value);
+
+  return {
+    plugins: [new webpack.DefinePlugin(env)],
+  };
+};
