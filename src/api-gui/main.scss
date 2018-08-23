@@ -12,23 +12,6 @@
   margin: 10px auto 0;
 }
 
-.container .interface {
-  text-align: center;
-  padding: 10px 0;
-}
-
-.container .interface input[type="button"] {
-  outline-color: #222222;
-  transition: all .1s;
-  border: 1px solid #222222;
-  border-radius: 3px;
-}
-
-.container .interface input[type="button"]:hover {
-  box-shadow: 1px 1px 1px 0px #222222;
-  transition: all .2s;
-}
-
 .container {
   ::-webkit-scrollbar {
     width: 3px;

@@ -1,7 +1,7 @@
 'use strict';
 
 import './main.scss';
-
+import Interface from './components/interface';
 import Pane from './components/pane';
 
 /*
@@ -74,17 +74,18 @@ export default class ApiGui {
     const _template = `
       <div class="container">
         <h2>REST API GUI</h2>
-        <div class="interface">
-          <input type='button' value='Clear' data-button='clear'>
-          <input type='button' value='Show users' data-button='showUsers'>
-          <input type='button' value='Create user' data-button='createUser'>
-        </div>
       </div>`;
     this._elem.insertAdjacentHTML('afterBegin', _.template(_template)());
     this._elem = this._elem.firstElementChild;
+    this._renderInterface();
     this._renderPane();
 
     this._elem.addEventListener('click', this);
+  }
+
+  _renderInterface() {
+    this._interface = new Interface();
+    this._elem.append(this._interface.getElem());
   }
 
   _renderPane() {
@@ -125,6 +126,7 @@ export default class ApiGui {
   createUser() {
     this._pane.clear();
     this._pane.renderForm();
+    
     this._elem.addEventListener('submit', this);
   }
 
