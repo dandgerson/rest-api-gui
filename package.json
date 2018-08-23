@@ -1,6 +1,6 @@
 {
   "name": "rest-api-gui",
-  "version": "1.0.0",
+  "version": "3.0.4",
   "description": "education project",
   "private": true,
   "scripts": {
@@ -23,6 +23,7 @@
     "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^1.0.0",
     "file-loader": "^1.1.11",
+    "git-revision-webpack-plugin": "^3.0.3",
     "glob": "^7.1.2",
     "html-webpack-plugin": "^3.2.0",
     "lodash": "^4.17.10",
