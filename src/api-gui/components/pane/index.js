@@ -6,6 +6,7 @@ import UserList from '../user-list';
 import Form from '../form';
 import User from '../user';
 import Error from '../error';
+import ContextMenu from '../context-menu';
 
 export default class Pane {
   getElem() {
@@ -31,6 +32,15 @@ export default class Pane {
   renderUserList(users) {
     this._userList = new UserList(users);
     this._elem.append(this._userList.getElem());
+  }
+  renderContextMenu() {
+    this._contextMenu = new ContextMenu();
+    const contextMenu = this._contextMenu.getElem();
+    this._elem.append(contextMenu);
+    Object.assign(contextMenu.style, {
+      top: event.clientY + 'px',
+      left: event.clientX + 'px',
+    });
   }
   renderForm() {
     this._form = new Form();
