@@ -73,7 +73,11 @@ export default class ApiGui {
   _render() {
     const _template = `
       <div class="container">
-        <h2>REST API GUI</h2>
+        <div class="row">
+          <div class="col">
+            <h2>REST API GUI</h2>
+          </div>
+        </div>
       </div>`;
     this._elem.insertAdjacentHTML('afterBegin', _.template(_template)());
     this._elem = this._elem.firstElementChild;
@@ -126,7 +130,7 @@ export default class ApiGui {
   createUser() {
     this._pane.clear();
     this._pane.renderForm();
-    
+
     this._elem.addEventListener('submit', this);
   }
 
