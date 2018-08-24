@@ -19,7 +19,7 @@ export default class Form {
               <label class="m-0" for="fullName">fullName:</label>
             </div>
             <div class="col-10 ">
-              <input class="m-0" type="text" name="fullName" id="fullName" placeholder="full name">
+              <input class="m-0" type="text" name="fullName" id="fullName" placeholder="Name must be present">
             </div>
           </div>
           <div class="row">
@@ -27,7 +27,7 @@ export default class Form {
               <label for="email">email:</label>
             </div>
             <div class="col-10 ">
-              <input type="email" name="email" id="email" placeholder="email">
+              <input type="email" name="email" id="email" placeholder="Email is required">
             </div>
           </div>
           <div class="row">
@@ -35,7 +35,7 @@ export default class Form {
               <label for="avatarUrl">avatarUrl:</label>
             </div>
             <div class="col-10 ">
-              <input type="text" name="avatarUrl" id="avatarUrl" placeholder="avatar URL">
+              <input type="text" name="avatarUrl" id="avatarUrl" placeholder="Avatar must be an url">
             </div>
           </div>
           <div class="row">
@@ -93,7 +93,7 @@ export default class Form {
         this._elem.address.value || true,
       ],
       errorTexts: [
-        ' fullName is required', // текст ошибки для первого поля
+        ' Name must be present', // текст ошибки для первого поля
         ' email is required',
         ' (optional)',
         ' (optional)',

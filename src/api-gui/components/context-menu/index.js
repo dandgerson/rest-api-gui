@@ -28,12 +28,8 @@ export default class ContextMenu {
     this._elem.addEventListener('contextmenu', this);
     this._elem.addEventListener('mousedown', this);
     this._elem.addEventListener('mouseup', this);
-    document.addEventListener('click', this);
   }
-  onClick() {
-    event.target.closest('.context-menu') || this._elem.remove();
-    event.target.closest('a') && this._elem.remove();
-  }
+  
   onContextmenu() {
     event.preventDefault();
   }

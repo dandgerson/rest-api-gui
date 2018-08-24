@@ -41,14 +41,20 @@ export default class Pane {
   }
   renderContextMenu() {
     this._contextMenu = new ContextMenu();
-    const contextMenu = this._contextMenu.getElem();
-    this._elem.append(contextMenu);
+    this._contextMenuElem = this._contextMenu.getElem();
+    this._elem.append(this._contextMenuElem);
     
-    Object.assign(contextMenu.style, {
+    Object.assign(this._contextMenuElem.style, {
       top: event.clientY + 'px',
       left: event.clientX + 'px',
     });
 
+    this._menuShown = true;
+    document.addEventListener('click', this);
+  }
+  removeContextMenu() {
+    this._contextMenuElem.remove();
+    this._menuShown = false;
   }
   renderForm() {
     this._form = new Form();
@@ -63,10 +69,21 @@ export default class Pane {
     this._elem.append(this._error.getElem());
   }
 
+  onClick() {
+    event.target.closest('.context-menu') || this.removeContextMenu();
+    event.target.closest('a') && this.removeContextMenu();
+  }
+
   onContextmenu() {
-    if (event.target.hasAttribute('data-id') &&
+    if (!this._menuShown && event.target.hasAttribute('data-id') &&
+    event.target.dataset.id === 'contextMenu-trigger') {
+      event.preventDefault();
+      this.renderContextMenu();
+    }
+    if (this._menuShown && event.target.hasAttribute('data-id') &&
       event.target.dataset.id === 'contextMenu-trigger') {
       event.preventDefault();
+      this.removeContextMenu();
       this.renderContextMenu();
     }
   }
