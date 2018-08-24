@@ -45,12 +45,15 @@ import Pane from './components/pane';
 * или вывести tooltip, если курсор остановится или замедлится над элементом, что у него 
 * есть возможность, нажав правую кнопку мыши на этой строке вызывать контекстное меню со списком
 * операций с user'ом.
-* TODO: 3.1 сделать метод, отрисовывающий контекстное меню _renderMenu();
-* меню должно содержать в себе список операций с пользователем:
-* изменить пользователя patchUser();
-* удалить пользователя deleteUser();
-* ***********************************
-* 
+** + TODO: 3.1 сделать метод, отрисовывающий контекстное меню _renderMenu();
+** + меню должно содержать в себе список операций с пользователем:
+** + изменить пользователя patchUser();
+** + удалить пользователя deleteUser();
+** ***********************************
+** TODO: 3.2 сделать меню dragable.
+** при наведении курсора на шапку меню курсор изменяется, показывая пользователю, что
+** что меню можно перемещать. И при зажатии левой кнопкой мыши, можно переместить меню
+** в место на экране в пределах outputPane.
 */
 export default class ApiGui {
   constructor({ url, account, }) {
@@ -90,7 +93,6 @@ export default class ApiGui {
 
     this._elem.addEventListener('click', this);
     this._elem.addEventListener('contextmenu', this);
-    // this._elem.addEventListener('mousedown', this);
   }
 
   _renderInterface() {
@@ -119,12 +121,6 @@ export default class ApiGui {
       this._pane.renderContextMenu();
     }
   }
-
-  // onMousedown() {
-  //   if (document.querySelector('.context-menu')) {
-  //     event.witch === 3 && this._pane._contextMenu.remove();
-  //   }
-  // }
 
   onSubmit() {
     event.preventDefault();
