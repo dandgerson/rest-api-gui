@@ -13,6 +13,7 @@ const PATHS = {
 };
 
 const commonConfig = merge([
+  parts.generateSourceMaps({ type: 'source-map' }),
   parts.loadFonts(),
   {
     plugins: [
@@ -37,7 +38,6 @@ const productionConfig = merge([
       name: '[name].[ext]',
     },
   }),
-  parts.generateSourceMaps({ type: 'source-map' }),
   {
     optimization: {
       splitChunks: {

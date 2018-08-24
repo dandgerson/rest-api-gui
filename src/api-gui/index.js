@@ -92,7 +92,6 @@ export default class ApiGui {
     this._renderPane();
 
     this._elem.addEventListener('click', this);
-    this._elem.addEventListener('contextmenu', this);
   }
 
   _renderInterface() {
@@ -114,14 +113,6 @@ export default class ApiGui {
     }
   }
   
-  onContextmenu() {
-    if (event.target.hasAttribute('data-id') &&
-      event.target.dataset.id === 'contextMenu-trigger') {
-      event.preventDefault();
-      this._pane.renderContextMenu();
-    }
-  }
-
   onSubmit() {
     event.preventDefault();
     if (!this._pane._form.validate()) return;
