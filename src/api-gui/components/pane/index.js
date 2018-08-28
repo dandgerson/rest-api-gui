@@ -6,7 +6,9 @@ import UserList from '../user-list';
 import Form from '../form';
 import User from '../user';
 import Error from '../error';
+import HoverIntent from '../tooltip';
 import ContextMenu from '../context-menu';
+import TooltipDelay from '../tooltip';
 
 export default class Pane {
   handleEvent(event) {
@@ -36,7 +38,11 @@ export default class Pane {
   renderUserList(users) {
     this._userList = new UserList(users);
     this._elem.append(this._userList.getElem());
-    
+
+    new TooltipDelay({
+      interval: 500,
+    });
+
     this._elem.addEventListener('contextmenu', this);
   }
   renderContextMenu() {

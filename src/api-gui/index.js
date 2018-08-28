@@ -150,7 +150,7 @@ export default class ApiGui {
     xhr.onloadend = () => this._loadEnd = true;
     xhr.onerror = () => console.log('Sorry error! Try again later');
 
-    method === 'GET' && xhr.send();
+    (method === 'GET' || method === 'DELETE') && xhr.send();
     if (method === 'POST') {
       xhr.setRequestHeader('Content-type', 'application/json');
       xhr.send(JSON.stringify(data));
