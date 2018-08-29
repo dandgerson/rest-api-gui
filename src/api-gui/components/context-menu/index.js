@@ -17,9 +17,9 @@ export default class ContextMenu {
       <div class="context-menu">
         <div class="caption">User context menu</div>
         <ul>
-          <li><a data-id="PATCH" href"#">Patch user</a></li>
-          <li><a data-id="DELETE user" href"#">Delete user</a></li>
-          <li><a class="warning" data-id="DELETE users" href"#">Delete all users</a></li>
+          <li><a data-id="patchUser" href"#">Patch user</a></li>
+          <li><a data-id="deleteUser" href"#">Delete user</a></li>
+          <li><a class="warning" data-id="deleteAllUsers" href"#">Delete all users</a></li>
         </ul>
       </div>`;
     this._elem.insertAdjacentHTML('afterbegin', _.template(_template)());

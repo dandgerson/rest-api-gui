@@ -120,4 +120,10 @@ export default class Form {
     }
     return data;
   }
+  // fill(data) {
+  //   const elements = this._elem.elements;
+  //   for (let element of elements) {
+  //     element[data.name].value = data.value;
+  //   }
+  // }
 }

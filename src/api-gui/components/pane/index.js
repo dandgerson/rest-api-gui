@@ -42,7 +42,7 @@ export default class Pane {
     this._contextMenu = new ContextMenu();
     this._contextMenuElem = this._contextMenu.getElem();
     this._elem.append(this._contextMenuElem);
-    
+
     Object.assign(this._contextMenuElem.style, {
       top: event.clientY + 'px',
       left: event.clientX + 'px',
@@ -57,6 +57,11 @@ export default class Pane {
   renderForm() {
     this._form = new Form();
     this._elem.append(this._form.getElem());
+  }
+  _getUserData(userDetails) {
+    const userData = [];
+    // this code generate userData from userDetails;
+    return userData;
   }
   renderUser(userData) {
     this._user = new User(userData);

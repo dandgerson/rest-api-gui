@@ -21,10 +21,19 @@ export default class ApiGui {
       trigger === 'showUsers' && this.showUserList();
       trigger === 'createUser' && this.createUser();
     }
-    
+
     if (this._elem.contains(this._elem.querySelector('.context-menu'))) {
       event.target.closest('.context-menu') || this._pane.removeContextMenu();
       event.target.closest('a') && this._pane.removeContextMenu();
+    }
+
+    if (event.target.hasAttribute('data-id')) {
+      const trigger = event.target.dataset.id;
+      switch (trigger) {
+        case 'patchUser':
+          this.patchUser();
+          break;
+      }
     }
   }
   onDblclick() {
@@ -32,15 +41,19 @@ export default class ApiGui {
   }
   onContextmenu() {
     if (!this._pane._menuShown && event.target.hasAttribute('data-id') &&
-    event.target.dataset.id === 'contextMenu-trigger') {
+      event.target.dataset.id === 'contextMenu-trigger') {
       event.preventDefault();
+      this._pane._userDetails = event.target.dataset.index;
       this._pane.renderContextMenu();
+      return;
     }
     if (this._pane._menuShown && event.target.hasAttribute('data-id') &&
       event.target.dataset.id === 'contextMenu-trigger') {
       event.preventDefault();
       this._pane.removeContextMenu();
+      this._pane._userDetails = event.target.dataset.index;
       this._pane.renderContextMenu();
+      return;
     }
   }
   onSubmit() {
@@ -76,6 +89,7 @@ export default class ApiGui {
 
     this._elem.addEventListener('click', this);
     this._elem.addEventListener('dblclick', this);
+    this._elem.addEventListener('submit', this);
   }
 
   _renderInterface() {
@@ -109,8 +123,14 @@ export default class ApiGui {
   createUser() {
     this._pane.clear();
     this._pane.renderForm();
+    this._pane._form._type = 'create';
+  }
 
-    this._elem.addEventListener('submit', this);
+  patchUser() {
+    this._pane.clear();
+    this._pane.renderForm();
+    this._pane._form.fill(this._pane._getUserData(this._pane._userDetails));
+    this._pane._form._type = 'patch';
   }
 
   showUser() {
@@ -139,18 +159,34 @@ export default class ApiGui {
   }
 
   _sendUserData() {
-    this.userData = this.errorData = null;
-    this._XHR({
-      method: 'POST',
-      url: this.mainUrl + 'users',
-      callbackSuccess: xhr => {
-        this.userData = JSON.parse(xhr.responseText);
-      },
-      callbackError: xhr => {
-        this.errorData = JSON.parse(xhr.responseText);
-      },
-      data: this._pane._form.process(),
-    });
+    if (this._pane._form._type === 'create') {
+      this.userData = this.errorData = null;
+      this._XHR({
+        method: 'POST',
+        url: this.mainUrl + 'users',
+        callbackSuccess: xhr => {
+          this.userData = JSON.parse(xhr.responseText);
+        },
+        callbackError: xhr => {
+          this.errorData = JSON.parse(xhr.responseText);
+        },
+        data: this._pane._form.process(),
+      });
+    }
+
+    if (this._pane._form._type === 'patch') {
+      this._XHR({
+        method: 'PATCH',
+        url: this.mainUrl + 'users/' + this._user._id,
+        callbackSuccess: xhr => {
+          this.userData = JSON.parse(xhr.responseText);
+        },
+        callbackError: xhr => {
+          this.errorData = JSON.parse(xhr.responseText);
+        },
+        data: this._pane._form.process(),
+      });
+    }
   }
 
   _XHR({ method, url, callbackSuccess = xhr => { }, callbackError = xhr => { }, data }) {
@@ -170,7 +206,7 @@ export default class ApiGui {
     xhr.onerror = () => console.log('Sorry error! Try again later');
 
     (method === 'GET' || method === 'DELETE') && xhr.send();
-    if (method === 'POST') {
+    if (method === 'POST' || method === 'PATCH') {
       xhr.setRequestHeader('Content-type', 'application/json');
       xhr.send(JSON.stringify(data));
     }
