@@ -1,6 +1,10 @@
 # REST API GUI
 
-This app allows to interact with the test-api service using the simple graphical user interface. It has the ability to perform basic requests to the server by simply clicking on the buttons. The query result is dynamically displayed in the application's output pane.
+* REST - Representational state transfer
+* API - Application programming interface
+* GUI - Graphical user interface
+
+This app allows to interact with the REST API service using the simple graphical interface. It has the ability to perform basic requests to the server by interaction with graphical elements. The query result is dynamically displayed in the app output pane.
 
 ## Installation
 

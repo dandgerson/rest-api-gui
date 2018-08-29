@@ -6,7 +6,6 @@ import UserList from '../user-list';
 import Form from '../form';
 import User from '../user';
 import Error from '../error';
-import HoverIntent from '../tooltip';
 import ContextMenu from '../context-menu';
 import TooltipDelay from '../tooltip';
 
