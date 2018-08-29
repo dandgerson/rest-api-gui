@@ -10,10 +10,6 @@ import ContextMenu from '../context-menu';
 import TooltipDelay from '../tooltip';
 
 export default class Pane {
-  handleEvent(event) {
-    this[`on${event.type[0].toUpperCase() + event.type.slice(1)}`]();
-  }
-
   getElem() {
     this._elem || (this._elem = document.createElement('div'));
     this._render();
@@ -41,8 +37,6 @@ export default class Pane {
     new TooltipDelay({
       interval: 500,
     });
-
-    this._elem.addEventListener('contextmenu', this);
   }
   renderContextMenu() {
     this._contextMenu = new ContextMenu();
@@ -55,7 +49,6 @@ export default class Pane {
     });
 
     this._menuShown = true;
-    document.addEventListener('click', this);
   }
   removeContextMenu() {
     this._contextMenuElem.remove();
@@ -72,24 +65,5 @@ export default class Pane {
   renderError(errorData) {
     this._error = new Error(errorData);
     this._elem.append(this._error.getElem());
-  }
-
-  onClick() {
-    event.target.closest('.context-menu') || this.removeContextMenu();
-    event.target.closest('a') && this.removeContextMenu();
-  }
-
-  onContextmenu() {
-    if (!this._menuShown && event.target.hasAttribute('data-id') &&
-    event.target.dataset.id === 'contextMenu-trigger') {
-      event.preventDefault();
-      this.renderContextMenu();
-    }
-    if (this._menuShown && event.target.hasAttribute('data-id') &&
-      event.target.dataset.id === 'contextMenu-trigger') {
-      event.preventDefault();
-      this.removeContextMenu();
-      this.renderContextMenu();
-    }
   }
 }

@@ -14,6 +14,40 @@ export default class ApiGui {
   handleEvent(event) {
     this[`on${event.type[0].toUpperCase() + event.type.slice(1)}`]();
   }
+  onClick() {
+    if (event.target.hasAttribute('data-button')) {
+      const trigger = event.target.dataset.button;
+      trigger === 'clear' && this._pane.clear();
+      trigger === 'showUsers' && this.showUserList();
+      trigger === 'createUser' && this.createUser();
+    }
+    
+    if (this._elem.contains(this._elem.querySelector('.context-menu'))) {
+      event.target.closest('.context-menu') || this._pane.removeContextMenu();
+      event.target.closest('a') && this._pane.removeContextMenu();
+    }
+  }
+  onDblclick() {
+    event.preventDefault();
+  }
+  onContextmenu() {
+    if (!this._pane._menuShown && event.target.hasAttribute('data-id') &&
+    event.target.dataset.id === 'contextMenu-trigger') {
+      event.preventDefault();
+      this._pane.renderContextMenu();
+    }
+    if (this._pane._menuShown && event.target.hasAttribute('data-id') &&
+      event.target.dataset.id === 'contextMenu-trigger') {
+      event.preventDefault();
+      this._pane.removeContextMenu();
+      this._pane.renderContextMenu();
+    }
+  }
+  onSubmit() {
+    event.preventDefault();
+    if (!this._pane._form.validate()) return;
+    this.showUser();
+  }
 
   _generateMainUrl() {
     this.url[this.url.length - 1] === '/' && (this.mainUrl = this.url) || (this.mainUrl = this.url + '/');
@@ -43,9 +77,6 @@ export default class ApiGui {
     this._elem.addEventListener('click', this);
     this._elem.addEventListener('dblclick', this);
   }
-  onDblclick() {
-    event.preventDefault();
-  }
 
   _renderInterface() {
     this._interface = new Interface();
@@ -57,20 +88,6 @@ export default class ApiGui {
     this._elem.append(this._pane.getElem());
   }
 
-  onClick() {
-    if (event.target.hasAttribute('data-button')) {
-      const trigger = event.target.dataset.button;
-      trigger === 'clear' && this._pane.clear();
-      trigger === 'showUsers' && this.showUserList();
-      trigger === 'createUser' && this.createUser();
-    }
-  }
-  
-  onSubmit() {
-    event.preventDefault();
-    if (!this._pane._form.validate()) return;
-    this.showUser();
-  }
 
   showUserList() {
     this._getUsers();
@@ -85,6 +102,8 @@ export default class ApiGui {
         clearInterval(intervalId);
       }
     }, interval);
+
+    this._elem.addEventListener('contextmenu', this);
   }
 
   createUser() {
