@@ -16,6 +16,17 @@ To run this project you should have the same **_workflow_** *(look bellow in **W
    2. `npm start` - build the bundle
 3. in browser open *<http://localhost:8080/>*
 
+## Showcase
+
+File Structure:
+![alt text](./File_Structure.png)
+[file structure diagram link](https://coggle.it/diagram/W4kDe-GhIs7jnfWd/t/file-structure/5777bbf249c96efe462f680be0b307af2d8d5e6943fa035353694aed858d8513)
+
+Bundle Structure:
+![alt text](./Bundle_Structure.png)
+[bundle structure diagram link](https://coggle.it/diagram/W4kaGOGhIlNWnlHS/t/bundle-structure/1e3c155cc2d9d901d7178086240c22902a36ae8e8f59d3ecad042766d35dcedd)
+
+
 ## About
 
 This small education project aims to show basic practical usage of:
