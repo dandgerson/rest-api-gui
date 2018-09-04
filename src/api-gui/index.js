@@ -111,7 +111,7 @@ export default class ApiGui {
     const intervalId = setInterval(() => {
       if (this._loadEnd) {
         this._pane.clear();
-        this._pane.renderUserList(this.users);
+        this._pane.renderUserList(this.usersData);
         this._loadEnd = null;
         clearInterval(intervalId);
       }
@@ -153,7 +153,7 @@ export default class ApiGui {
       method: 'GET',
       url: this.mainUrl + 'users',
       callbackSuccess: xhr => {
-        this.users = JSON.parse(xhr.responseText);
+        this.usersData = JSON.parse(xhr.responseText);
       },
     });
   }

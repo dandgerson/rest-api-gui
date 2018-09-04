@@ -30,8 +30,9 @@ export default class Pane {
   clear() {
     this._elem.innerHTML = '';
   }
-  renderUserList(users) {
-    this._userList = new UserList(users);
+  renderUserList(usersData) {
+    console.log(usersData);
+    this._userList = new UserList(usersData);
     this._elem.append(this._userList.getElem());
 
     new TooltipDelay({
