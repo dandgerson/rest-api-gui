@@ -3,15 +3,24 @@
 import './main.scss';
 
 export default class User {
-  constructor(data) {
-    this.data = data;
+  constructor(userData) {
+    Object.defineProperty(this, 'data', {
+      value: userData,
+      writable: false,
+      configurable: false,
+      enumerable: false,
+    });
+    
+    for (let prop in this.data) {
+      this[prop] = this.data[prop];
+    }
   }
-  getElem() {
-    this._elem || (this._elem = document.createElement('div'));
-    this._render();
-    return this._elem;
+  getSuccessElem() {
+    this._successElem || (this._successElem = document.createElement('div'));
+    this._renderSuccessElem();
+    return this._successElem;
   }
-  _render() {
+  _renderSuccessElem() {
     let _template = `
       <table>
         <caption>User was successfully created:</caption>
@@ -29,7 +38,7 @@ export default class User {
           <% } %>
           </tbody>
       </table>`;
-    this._elem.insertAdjacentHTML('afterBegin', _.template(_template)({data: this.data}));
-    this._elem = this._elem.firstElementChild;
+    this._successElem.insertAdjacentHTML('afterBegin', _.template(_template)({data: this.data}));
+    this._successElem = this._successElem.firstElementChild;
   }
 }

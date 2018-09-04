@@ -3,6 +3,7 @@
 import './main.scss';
 import Interface from './components/interface';
 import Pane from './components/pane';
+import User from './components/user';
 
 export default class ApiGui {
   constructor({ url, account, }) {
@@ -111,7 +112,7 @@ export default class ApiGui {
     const intervalId = setInterval(() => {
       if (this._loadEnd) {
         this._pane.clear();
-        this._pane.renderUserList(this.usersData);
+        this._pane.renderUserList(this.users);
         this._loadEnd = null;
         clearInterval(intervalId);
       }
@@ -141,7 +142,7 @@ export default class ApiGui {
     const intervalId = setInterval(() => {
       if (this._loadEnd) {
         this._pane.clear();
-        this.userData ? this._pane.renderUser(this.userData) : this._pane.renderError(this.errorData);
+        this.userData ? this._pane.renderSuccessUserCreating(this.userData) : this._pane.renderErrorUserCreating(this.errorData);
         this._loadEnd = null;
         clearInterval(intervalId);
       }
@@ -153,7 +154,12 @@ export default class ApiGui {
       method: 'GET',
       url: this.mainUrl + 'users',
       callbackSuccess: xhr => {
-        this.usersData = JSON.parse(xhr.responseText);
+        const usersData = JSON.parse(xhr.responseText);
+        this.users = new Map();
+        let index = 0;
+        for (let userData of usersData) {
+          this.users.set(++index, new User(userData));
+        }
       },
     });
   }

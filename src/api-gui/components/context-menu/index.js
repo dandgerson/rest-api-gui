@@ -37,7 +37,7 @@ export default class ContextMenu {
     event.preventDefault();
 
     if (event.target.classList.contains('caption')) {
-      event.target.classList.toggle('grabbing');
+      event.target.classList.add('grabbing');
 
       this._shiftX = event.clientX - this._elem.getBoundingClientRect().left;
       this._shiftY = event.clientY - this._elem.getBoundingClientRect().top;
@@ -65,7 +65,7 @@ export default class ContextMenu {
 
   onMouseup() {
     event.target.classList.contains('caption') &&
-    event.target.classList.toggle('grabbing');
+    event.target.classList.remove('grabbing');
 
     Object.assign(this._elem.style, {
       position: 'fixed',

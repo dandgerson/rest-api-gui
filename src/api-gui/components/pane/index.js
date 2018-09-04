@@ -30,9 +30,9 @@ export default class Pane {
   clear() {
     this._elem.innerHTML = '';
   }
-  renderUserList(usersData) {
-    console.log(usersData);
-    this._userList = new UserList(usersData);
+  renderUserList(users) {
+    console.log(users);
+    this._userList = new UserList(users);
     this._elem.append(this._userList.getElem());
 
     new TooltipDelay({
@@ -59,16 +59,11 @@ export default class Pane {
     this._form = new Form();
     this._elem.append(this._form.getElem());
   }
-  _getUserData(userDetails) {
-    const userData = [];
-    // this code generate userData from userDetails;
-    return userData;
-  }
-  renderUser(userData) {
+  renderSuccessUserCreating(userData) {
     this._user = new User(userData);
-    this._elem.append(this._user.getElem());
+    this._elem.append(this._user.getSuccessElem());
   }
-  renderError(errorData) {
+  renderErrorUserCreating(errorData) {
     this._error = new Error(errorData);
     this._elem.append(this._error.getElem());
   }

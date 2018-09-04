@@ -13,7 +13,6 @@ export default class UserList {
   }
   _render() {
     let _template = `
-      <% let i = 0; %>
       <table class="user-list">
         <caption>Users</caption>
         <thead>
@@ -23,11 +22,10 @@ export default class UserList {
         </thead>
         <% for (let user of users) { %>
           <tbody>
-            <% ++i; %>
-            <tr><td data-id="contextMenu-trigger" data-index="<%-i %>" data-tooltip="Right click for context menu" colspan="2">user: <%-i %></td></tr>
-          <% for (let prop in user) { %>
+            <tr><td data-id="contextMenu-trigger" data-index="<%-user[0] %>" data-tooltip="Right click for context menu" colspan="2">user<%-user[0] %>: <%-user[1].fullName %></td></tr>
+          <% for (let prop in user[1]) { %>
             <tr>
-                <td><%=prop %>:</td><td><%=user[prop] %></td>
+                <td><%=prop %>:</td><td><%=user[1][prop] %></td>
             </tr>
           <% } %>
           </tbody>
