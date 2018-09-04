@@ -31,9 +31,11 @@ export default class ApiGui {
     if (event.target.hasAttribute('data-id')) {
       const trigger = event.target.dataset.id;
       switch (trigger) {
-        case 'patchUser':
-          this.patchUser();
-          break;
+      case 'patchUser':
+        this.patchUser();
+        break;
+      case 'deleteUser':
+        this.deleteUser();
       }
     }
   }
@@ -133,6 +135,25 @@ export default class ApiGui {
     this._pane.form.fill(this.user);
     this._pane.form.type = 'patch';
   }
+  deleteUser() {
+    this._pane.clear();
+    this._acceptDelete() && this._XHR({
+      method: 'DELETE',
+      url: this.mainUrl + 'users/' + this.user._id,
+      callbackSuccess: xhr => {
+        console.log(xhr.responseText);
+        this._pane.renderSuccessDelete();
+      },
+      callbackError: xhr => {
+        console.log(xhr.responseText);
+        this._pane.renderErrorDelete();
+      }
+    });
+  }
+
+  _acceptDelete() {
+    return confirm(`Delete this user: ${this.user.fullName}?`);
+  }
 
   showResponse() {
     this._sendUserData();
@@ -142,7 +163,9 @@ export default class ApiGui {
     const intervalId = setInterval(() => {
       if (this._loadEnd) {
         this._pane.clear();
-        this.userData ? this._pane.renderSuccessElem(this.userData) : this._pane.renderErrorElem(this.errorData);
+        this.userData
+          ? this._pane.renderSuccessElem(this.userData)
+          : this._pane.renderErrorElem(this.errorData);
         this._loadEnd = null;
         clearInterval(intervalId);
       }

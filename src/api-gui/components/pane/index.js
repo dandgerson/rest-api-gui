@@ -72,4 +72,10 @@ export default class Pane {
     });
     this._elem.append(this._error.getElem());
   }
+  renderSuccessDelete() {
+    this._elem.innerHTML = 'user successfully deleted';
+  }
+  renderErrorDelete() {
+    this._elem.innerHTML = 'user deleting was corrupt by Error';
+  }
 }
