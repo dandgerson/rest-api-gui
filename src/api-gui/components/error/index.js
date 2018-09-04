@@ -3,8 +3,9 @@
 import './main.scss';
 
 export default class Error {
-  constructor(data) {
-    this.data = data;
+  constructor({ data, formType }) {
+    this._data = data;
+    this._formType = formType;
   }
   getElem() {
     this._elem || (this._elem = document.createElement('div'));
@@ -12,9 +13,11 @@ export default class Error {
     return this._elem;
   }
   _render() {
+    this._formType === 'create' && (this._caption = 'creation');
+    this._formType === 'patch' && (this._caption = 'patching');
     let _template = `
       <table >
-        <caption>User creation was corrupted by Error:</caption>
+        <caption>User ${this._caption} was corrupted by Error:</caption>
         <thead>
           <tr>
             <th>Property</th><th>Value</th>
@@ -31,7 +34,7 @@ export default class Error {
           <% } %>
           </tbody>
       </table>`;
-    this._elem.insertAdjacentHTML('afterBegin', _.template(_template)({data: this.data}));
+    this._elem.insertAdjacentHTML('afterBegin', _.template(_template)({data: this._data}));
     this._elem = this._elem.firstElementChild;
   }
 }

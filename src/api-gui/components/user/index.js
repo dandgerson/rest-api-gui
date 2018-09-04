@@ -3,16 +3,36 @@
 import './main.scss';
 
 export default class User {
-  constructor(userData) {
-    Object.defineProperty(this, 'data', {
-      value: userData,
-      writable: false,
-      configurable: false,
-      enumerable: false,
+  constructor({ data, formType }) {
+    Object.defineProperties(this, {
+      '_data': {
+        value: data,
+        writable: false,
+        configurable: false,
+        enumerable: false,
+      },
+      '_formType': {
+        value: formType,
+        writable: false,
+        configurable: false,
+        enumerable: false,
+      },
+      '_caption': {
+        value: null,
+        writable: true,
+        configurable: false,
+        enumerable: false,
+      },
+      '_successElem': {
+        value: null,
+        writable: true,
+        configurable: false,
+        enumerable: false,
+      }
     });
-    
-    for (let prop in this.data) {
-      this[prop] = this.data[prop];
+
+    for (let prop in this._data) {
+      this[prop] = this._data[prop];
     }
   }
   getSuccessElem() {
@@ -21,16 +41,18 @@ export default class User {
     return this._successElem;
   }
   _renderSuccessElem() {
+    this._formType === 'create' && (this._caption = 'created');
+    this._formType === 'patch' && (this._caption = 'patched');
     let _template = `
       <table>
-        <caption>User was successfully created:</caption>
+        <caption>User was successfully ${this._caption}:</caption>
         <thead>
           <tr>
             <th>Property</th><th>Value</th>
           </tr>
         </thead>
           <tbody>
-            <tr><td colspan="2">user:</td></tr>
+            <tr><td colspan="2">user: <%=data['fullName'] %></td></tr>
           <% for (let prop in data) { %>
             <tr>
                 <td><%=prop %>:</td><td><%=data[prop] %></td>
@@ -38,7 +60,7 @@ export default class User {
           <% } %>
           </tbody>
       </table>`;
-    this._successElem.insertAdjacentHTML('afterBegin', _.template(_template)({data: this.data}));
+    this._successElem.insertAdjacentHTML('afterBegin', _.template(_template)({data: this._data}));
     this._successElem = this._successElem.firstElementChild;
   }
 }

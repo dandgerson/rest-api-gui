@@ -31,7 +31,6 @@ export default class Pane {
     this._elem.innerHTML = '';
   }
   renderUserList(users) {
-    console.log(users);
     this._userList = new UserList(users);
     this._elem.append(this._userList.getElem());
 
@@ -49,22 +48,28 @@ export default class Pane {
       left: event.clientX + 'px',
     });
 
-    this._menuShown = true;
+    this.menuShown = true;
   }
   removeContextMenu() {
     this._contextMenuElem.remove();
-    this._menuShown = false;
+    this.menuShown = false;
   }
   renderForm() {
-    this._form = new Form();
-    this._elem.append(this._form.getElem());
+    this.form = new Form();
+    this._elem.append(this.form.getElem());
   }
-  renderSuccessUserCreating(userData) {
-    this._user = new User(userData);
+  renderSuccessElem(userData) {
+    this._user = new User({
+      data: userData, 
+      formType: this.form.type
+    });
     this._elem.append(this._user.getSuccessElem());
   }
-  renderErrorUserCreating(errorData) {
-    this._error = new Error(errorData);
+  renderErrorElem(errorData) {
+    this._error = new Error({
+      data: errorData, 
+      formType: this.form.type,
+    });
     this._elem.append(this._error.getElem());
   }
 }

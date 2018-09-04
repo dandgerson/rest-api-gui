@@ -41,26 +41,26 @@ export default class ApiGui {
     event.preventDefault();
   }
   onContextmenu() {
-    if (!this._pane._menuShown && event.target.hasAttribute('data-id') &&
+    if (!this._pane.menuShown && event.target.hasAttribute('data-id') &&
       event.target.dataset.id === 'contextMenu-trigger') {
       event.preventDefault();
-      this._pane._userDetails = event.target.dataset.index;
+      this.user = this.users.get(+event.target.dataset.index);
       this._pane.renderContextMenu();
       return;
     }
-    if (this._pane._menuShown && event.target.hasAttribute('data-id') &&
+    if (this._pane.menuShown && event.target.hasAttribute('data-id') &&
       event.target.dataset.id === 'contextMenu-trigger') {
       event.preventDefault();
       this._pane.removeContextMenu();
-      this._pane._userDetails = event.target.dataset.index;
+      this.user = this.users.get(+event.target.dataset.index);
       this._pane.renderContextMenu();
       return;
     }
   }
   onSubmit() {
     event.preventDefault();
-    if (!this._pane._form.validate()) return;
-    this.showUser();
+    if (!this._pane.form.validate()) return;
+    this.showResponse();
   }
 
   _generateMainUrl() {
@@ -124,17 +124,17 @@ export default class ApiGui {
   createUser() {
     this._pane.clear();
     this._pane.renderForm();
-    this._pane._form._type = 'create';
+    this._pane.form.type = 'create';
   }
 
   patchUser() {
     this._pane.clear();
     this._pane.renderForm();
-    this._pane._form.fill(this._pane._getUserData(this._pane._userDetails));
-    this._pane._form._type = 'patch';
+    this._pane.form.fill(this.user);
+    this._pane.form.type = 'patch';
   }
 
-  showUser() {
+  showResponse() {
     this._sendUserData();
     this._pane.clear();
     this._pane.renderLoader();
@@ -142,7 +142,7 @@ export default class ApiGui {
     const intervalId = setInterval(() => {
       if (this._loadEnd) {
         this._pane.clear();
-        this.userData ? this._pane.renderSuccessUserCreating(this.userData) : this._pane.renderErrorUserCreating(this.errorData);
+        this.userData ? this._pane.renderSuccessElem(this.userData) : this._pane.renderErrorElem(this.errorData);
         this._loadEnd = null;
         clearInterval(intervalId);
       }
@@ -158,14 +158,14 @@ export default class ApiGui {
         this.users = new Map();
         let index = 0;
         for (let userData of usersData) {
-          this.users.set(++index, new User(userData));
+          this.users.set(++index, new User({ data: userData }));
         }
       },
     });
   }
 
   _sendUserData() {
-    if (this._pane._form._type === 'create') {
+    if (this._pane.form.type === 'create') {
       this.userData = this.errorData = null;
       this._XHR({
         method: 'POST',
@@ -176,21 +176,21 @@ export default class ApiGui {
         callbackError: xhr => {
           this.errorData = JSON.parse(xhr.responseText);
         },
-        data: this._pane._form.process(),
+        data: this._pane.form.process(),
       });
     }
 
-    if (this._pane._form._type === 'patch') {
+    if (this._pane.form.type === 'patch') {
       this._XHR({
         method: 'PATCH',
-        url: this.mainUrl + 'users/' + this._user._id,
+        url: this.mainUrl + 'users/' + this.user._id,
         callbackSuccess: xhr => {
           this.userData = JSON.parse(xhr.responseText);
         },
         callbackError: xhr => {
           this.errorData = JSON.parse(xhr.responseText);
         },
-        data: this._pane._form.process(),
+        data: this._pane.form.process(),
       });
     }
   }
