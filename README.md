@@ -6,6 +6,8 @@
 
 This app allows to interact with the REST API service using the simple graphical interface. It has the ability to perform basic requests to the server by interaction with graphical elements. The query result is dynamically displayed in the app output pane.
 
+[***Look development stage***](./TODO.md)
+
 ## Installation
 
 To run this project you should have the same **_workflow_** *(look bellow in **Workflow** section)*, also **Node.js** have to be installed.
@@ -66,12 +68,12 @@ Also much attention was paid to bundle. This is one of the important parts of th
 
 ## Showcase
 
-### File Structure:
+### File Structure
 
 ![alt text](./File_Structure.png)
 [*file structure diagram link*](https://coggle.it/diagram/W4kDe-GhIs7jnfWd/t/file-structure/5777bbf249c96efe462f680be0b307af2d8d5e6943fa035353694aed858d8513)
 
-### Bundle Structure:
+### Bundle Structure
 
 ![alt text](./Bundle_Structure.png)
 [*bundle structure diagram link*](https://coggle.it/diagram/W4kaGOGhIlNWnlHS/t/bundle-structure/1e3c155cc2d9d901d7178086240c22902a36ae8e8f59d3ecad042766d35dcedd)
