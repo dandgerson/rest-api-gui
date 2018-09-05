@@ -21,6 +21,9 @@ export default class ApiGui {
       trigger === 'clear' && this._pane.clear();
       trigger === 'showUsers' && this.showUserList();
       trigger === 'createUser' && this.createUser();
+
+      trigger === 'modal-delete-user-ok' && this.deleteUser();
+      trigger === 'modal-delete-user-cancel' && this.cancelDeleteUser();
     }
 
     if (this._elem.contains(this._elem.querySelector('.context-menu'))) {
@@ -35,7 +38,7 @@ export default class ApiGui {
         this.patchUser();
         break;
       case 'deleteUser':
-        this.deleteUser();
+        this._confirmUserDeletion();
       }
     }
   }
@@ -137,22 +140,27 @@ export default class ApiGui {
   }
   deleteUser() {
     this._pane.clear();
-    this._acceptDelete() && this._XHR({
+    this._XHR({
       method: 'DELETE',
       url: this.mainUrl + 'users/' + this.user._id,
       callbackSuccess: xhr => {
         console.log(xhr.responseText);
-        this._pane.renderSuccessDelete();
+        this._pane.renderSuccessDelete(this.user.fullName);
       },
       callbackError: xhr => {
         console.log(xhr.responseText);
-        this._pane.renderErrorDelete();
+        this._pane.renderErrorDelete(this.user.fullName);
       }
     });
   }
 
-  _acceptDelete() {
-    return confirm(`Delete this user: ${this.user.fullName}?`);
+  cancelDeleteUser() {
+    this._elem.querySelector('.modal').remove();
+  }
+
+  _confirmUserDeletion() {
+    this._pane.renderModalConfirm(`Delete this user: ${this.user.fullName}?`);
+    // return confirm();
   }
 
   showResponse() {

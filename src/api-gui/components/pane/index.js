@@ -8,6 +8,7 @@ import User from '../user';
 import Error from '../error';
 import ContextMenu from '../context-menu';
 import TooltipDelay from '../tooltip';
+import Modal from '../modal';
 
 export default class Pane {
   getElem() {
@@ -72,10 +73,14 @@ export default class Pane {
     });
     this._elem.append(this._error.getElem());
   }
-  renderSuccessDelete() {
-    this._elem.innerHTML = 'user successfully deleted';
+  renderSuccessDelete(userName) {
+    this._elem.innerHTML = `user: "${userName}" successfully deleted`;
   }
-  renderErrorDelete() {
-    this._elem.innerHTML = 'user deleting was corrupt by Error';
+  renderErrorDelete(userName) {
+    this._elem.innerHTML = `user: "${userName}" deleting was corrupt by Error`;
+  }
+  renderModalConfirm(question) {
+    const modal = new Modal(question);
+    this._elem.append(modal.getElem());
   }
 }
