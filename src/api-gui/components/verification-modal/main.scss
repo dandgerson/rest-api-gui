@@ -1,0 +1,28 @@
+.modal input[type="text"] {
+  outline-color: #00BE00;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 2px solid black;
+  border-radius: 5px;
+  box-shadow: 3px 2px 7px 0px black;
+  background-color: #222222;
+  color: #00BE00;
+  font-size: .85rem;
+  font-family: "Fira Code";
+  font-weight: bold;
+}
+
+.modal .modal-pane {
+  padding: 10px;
+}
+
+.modal form .successText {
+  display: none;
+}
+.modal form .errorText {
+  font-size: .85rem;
+  font-family: "Fira Code";
+  font-weight: bold;
+}

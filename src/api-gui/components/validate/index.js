@@ -75,7 +75,7 @@ export default class Validate {
     errorText.setAttribute('data-error-text', text);
     errorText.classList.add('errorText');
     errorText.append(errorText.dataset.errorText);
-    elem.after(errorText);
+    elem && elem.after(errorText);
   }
 
   _successText(elem, text) {
@@ -83,6 +83,6 @@ export default class Validate {
     successText.setAttribute('data-success-text', text);
     successText.classList.add('successText');
     successText.append(successText.dataset.successText);
-    elem.after(successText);
+    elem && elem.after(successText);
   }
 }

@@ -3,8 +3,9 @@
 import './main.scss';
 
 export default class Modal {
-  constructor(question) {
+  constructor({ question, trigger }) {
     this.question = question;
+    this.trigger = trigger;
   }
   getElem() {
     this._elem || (this._elem = document.createElement('div'));
@@ -31,8 +32,8 @@ export default class Modal {
   _renderInterface() {
     const _template = `
       <div class="modal-interface">
-        <input type="button" data-button="modal-delete-user-ok" name="ok" value="ok">
-        <input type="button" data-button="modal-delete-user-cancel" name="cancel" value="cancel">
+        <input type="button" data-button="${this.trigger}" name="ok" value="ok">
+        <input type="button" data-button="modal-cancel" name="cancel" value="cancel">
       </div>`;
     this._interface = document.createElement('div');
     this._interface.insertAdjacentHTML('afterBegin', _template);

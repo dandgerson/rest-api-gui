@@ -9,6 +9,7 @@ import Error from '../error';
 import ContextMenu from '../context-menu';
 import TooltipDelay from '../tooltip';
 import Modal from '../modal';
+import VerificationModal from '../verification-modal';
 
 export default class Pane {
   getElem() {
@@ -79,8 +80,30 @@ export default class Pane {
   renderErrorDelete(userName) {
     this._elem.innerHTML = `user: "${userName}" deleting was corrupt by Error`;
   }
-  renderModalConfirm(question) {
-    const modal = new Modal(question);
+  renderSuccessDeleteAllUsers(users) {
+    const _template = `
+      <ul>
+        <% for (let user of users) { %>
+          <li> user: "<%-user %>" successfully deleted </li>
+        <% } %>
+      </ul>`;
+    this._elem.insertAdjacentHTML('afterBegin', _.template(_template)({users: users}));
+  }
+  renderErrorDeleteAllUsers(response) {
+    this._elem.insertAdjacentHTML('afterBegin', response);
+  }
+  renderModal(question, trigger) {
+    const modal = new Modal({
+      question: question,
+      trigger: trigger,
+    });
     this._elem.append(modal.getElem());
+  }
+  renderVerificationModal(question, trigger) {
+    this.verificationModal = new VerificationModal({
+      question: question,
+      trigger: trigger,
+    });
+    this._elem.append(this.verificationModal.getElem());
   }
 }

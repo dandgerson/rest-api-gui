@@ -22,8 +22,10 @@ export default class ApiGui {
       trigger === 'showUsers' && this.showUserList();
       trigger === 'createUser' && this.createUser();
 
+      trigger === 'modal-cancel' && this.cancelModal();
       trigger === 'modal-delete-user-ok' && this.deleteUser();
-      trigger === 'modal-delete-user-cancel' && this.cancelDeleteUser();
+      trigger === 'modal-delete-all-users-ok' && this.confirmDeletion();
+      trigger === 'verification-delete-all-users' && this.deleteAllUsers();
     }
 
     if (this._elem.contains(this._elem.querySelector('.context-menu'))) {
@@ -38,7 +40,11 @@ export default class ApiGui {
         this.patchUser();
         break;
       case 'deleteUser':
-        this._confirmUserDeletion();
+        this.showModalDeleteUser();
+        break;
+      case 'deleteAllUsers':
+        this.showModalDeleteUsers();
+        break;
       }
     }
   }
@@ -150,17 +156,47 @@ export default class ApiGui {
       callbackError: xhr => {
         console.log(xhr.responseText);
         this._pane.renderErrorDelete(this.user.fullName);
-      }
+      },
     });
   }
 
-  cancelDeleteUser() {
+  
+  deleteAllUsers() {
+    if (this._pane.verificationModal.validate()) {
+      this._pane.clear();
+      const users = this.users.values();
+      const names = [];
+      for (let user of users) {
+        names.push(user.fullName);
+        setTimeout(() => {
+          this._XHR({
+            method: 'DELETE',
+            url: this.mainUrl + 'users/' + user._id,
+          });
+        }, 0);
+      }
+      this._pane.renderLoader();
+      setTimeout(() => {
+        this._pane.clear();
+        this._pane.renderSuccessDeleteAllUsers(names);
+      }, 2000);
+    }
+  }
+  
+  confirmDeletion() {
+    this.cancelModal();
+    this._pane.renderVerificationModal('delete all users', 'verification-delete-all-users');
+  }
+
+  cancelModal() {
     this._elem.querySelector('.modal').remove();
   }
 
-  _confirmUserDeletion() {
-    this._pane.renderModalConfirm(`Delete this user: ${this.user.fullName}?`);
-    // return confirm();
+  showModalDeleteUser() {
+    this._pane.renderModal(`Delete this user: ${this.user.fullName}?`, 'modal-delete-user-ok');
+  }
+  showModalDeleteUsers() {
+    this._pane.renderModal('Delete all users?', 'modal-delete-all-users-ok');
   }
 
   showResponse() {
@@ -181,6 +217,7 @@ export default class ApiGui {
   }
 
   _getUsers() {
+    this.users = null;
     this._XHR({
       method: 'GET',
       url: this.mainUrl + 'users',
@@ -242,7 +279,9 @@ export default class ApiGui {
     xhr.onloadend = () => this._loadEnd = true;
     xhr.onerror = () => console.log('Sorry error! Try again later');
 
-    (method === 'GET' || method === 'DELETE') && xhr.send();
+    if (method === 'GET' || method === 'DELETE') {
+      xhr.send(); 
+    }
     if (method === 'POST' || method === 'PATCH') {
       xhr.setRequestHeader('Content-type', 'application/json');
       xhr.send(JSON.stringify(data));
