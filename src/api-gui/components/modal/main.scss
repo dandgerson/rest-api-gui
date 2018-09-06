@@ -21,12 +21,16 @@
 .modal .modal-container {
   width: 250px;
   height: 150px;
-  background-color: lightgreen;
+
   border: 2px solid black;
   border-radius: 5px;
   box-shadow: 3px 2px 7px 2px black;
+  
   margin: 0;
   padding: 0;
+  
+  background-color: lightgreen;
+  
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-around;
@@ -34,8 +38,18 @@
 }
 .modal .modal-pane {
   /* outline: 1px solid green; */
-  padding: 15px 30px 15px 30px;
-  color: #222222;
+  width: 80%;
+  height: 40%;
+
+  border: 2px solid black;
+  border-radius: 5px;
+  box-shadow: 3px 2px 7px 0px black;
+
+  padding: 15px 10px 15px 10px;
+  
+  background-color: #222222;
+  
+  color: #00BE00;
   font-size: .85rem;
   font-family: "Fira Code";
   font-weight: bold;
@@ -43,6 +57,7 @@
 .modal .modal-interface {
   /* outline: 1px solid green; */
   width: 100%;
+  
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-around;
