@@ -29,7 +29,7 @@ export default class ContextMenu {
     this._elem.addEventListener('mousedown', this);
     this._elem.addEventListener('mouseup', this);
   }
-  
+
   onContextmenu() {
     event.preventDefault();
   }
@@ -41,7 +41,7 @@ export default class ContextMenu {
 
       this._shiftX = event.clientX - this._elem.getBoundingClientRect().left;
       this._shiftY = event.clientY - this._elem.getBoundingClientRect().top;
-      
+
       Object.assign(this._elem.style, {
         position: 'absolute',
         zIndex: 1000,
@@ -54,8 +54,26 @@ export default class ContextMenu {
 
   onMousemove() {
     this._moveAt(event.pageX, event.pageY);
+
+    const elemCoords = this._elem.getBoundingClientRect();
+    const bodyCoords = document.body.getBoundingClientRect();
+    (elemCoords.left <= bodyCoords.left) &&
+      Object.assign(this._elem.style, {
+        left: bodyCoords.left + 'px',
+      });
+    (elemCoords.right >= bodyCoords.right) &&
+      Object.assign(this._elem.style, {
+        left: bodyCoords.right - this._elem.offsetWidth + 'px',
+      });
+    (elemCoords.top <= bodyCoords.top) &&
+      Object.assign(this._elem.style, {
+        top: bodyCoords.top + 'px',
+      });
+    (elemCoords.bottom >= bodyCoords.bottom) &&
+      Object.assign(this._elem.style, {
+        top: bodyCoords.bottom - this._elem.offsetHeight + 'px',
+      });
   }
-  
   _moveAt(pageX, pageY) {
     Object.assign(this._elem.style, {
       left: pageX - this._shiftX + 'px',
@@ -65,7 +83,7 @@ export default class ContextMenu {
 
   onMouseup() {
     event.target.classList.contains('caption') &&
-    event.target.classList.remove('grabbing');
+      event.target.classList.remove('grabbing');
 
     Object.assign(this._elem.style, {
       position: 'fixed',
