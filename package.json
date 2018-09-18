@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/dandgerson/rest-api-gui#readme",
   "devDependencies": {
-    "autoprefixer": "^9.1.3",
+    "autoprefixer": "^9.1.5",
     "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^1.0.0",
     "cssnano": "^4.1.0",
@@ -27,11 +27,11 @@
     "git-revision-webpack-plugin": "^3.0.3",
     "glob": "^7.1.3",
     "html-webpack-plugin": "^3.2.0",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.11",
     "mini-css-extract-plugin": "^0.4.2",
     "node-sass": "^4.9.3",
-    "nodemon": "^1.18.3",
-    "optimize-css-assets-webpack-plugin": "^5.0.0",
+    "nodemon": "^1.18.4",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
     "postcss-loader": "^3.0.0",
     "postcss-safe-parser": "^4.0.1",
     "purify-css": "^1.2.5",
@@ -40,9 +40,9 @@
     "style-loader": "^0.22.1",
     "uglifyjs-webpack-plugin": "^1.3.0",
     "url-loader": "^1.1.1",
-    "webpack": "^4.17.1",
+    "webpack": "^4.19.0",
     "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.6",
+    "webpack-dev-server": "^3.1.8",
     "webpack-merge": "^4.1.4"
   }
 }

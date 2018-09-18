@@ -70,7 +70,7 @@ export default class TooltipDelay extends Tooltip {
       // cursor didn't move
       speed = 0;
     } else {
-      speed = Math.sqrt(Math.pow(this.prevX - this.lastX, 2) + Math.pow(this.prevY - this.lastY, 2)) / (this.lastTime - this.prevTime);
+      speed = Math.sqrt((this.prevX - this.lastX) ** 2) + ((this.prevY - this.lastY) ** 2) / (this.lastTime - this.prevTime);
     }
     if (speed < this.sensitivity) {
       clearInterval(this.checkSpeedInterval);
