@@ -7,27 +7,17 @@ export default class User {
     Object.defineProperties(this, {
       '_data': {
         value: data,
-        writable: false,
-        configurable: false,
-        enumerable: false,
       },
       '_formType': {
         value: formType,
-        writable: false,
-        configurable: false,
-        enumerable: false,
       },
       '_caption': {
         value: null,
         writable: true,
-        configurable: false,
-        enumerable: false,
       },
       '_successElem': {
         value: null,
         writable: true,
-        configurable: false,
-        enumerable: false,
       }
     });
 
